@@ -33,7 +33,7 @@ public class SampleReportGenerator {
 		}
 	}
 
-	private static void makeReportFile(Map<String, Map<String, Long>> nameAndDateAndScore, String tempPath, File out) throws IOException{
+	public static void makeReportFile(Map<String, Map<String, Long>> nameAndDateAndScore, String tempPath, File out) throws IOException{
 		Velocity.init();
 		VelocityContext context = new VelocityContext();
 		context.put("DATA_TABLE", createDataTable(nameAndDateAndScore));
@@ -41,10 +41,10 @@ public class SampleReportGenerator {
 		Template template = Velocity.getTemplate(tempPath,"UTF-8");
 		StringWriter w = new StringWriter();
 		template.merge(context, w);
-		//BufferedWriter bw = new BufferedWriter(new FileWriter(out));
-		//bw.write(w.toString());
-		//bw.close();
-		System.out.println(w.toString());
+		BufferedWriter bw = new BufferedWriter(new FileWriter(out));
+		bw.write(w.toString());
+		bw.close();
+		//System.out.println(w.toString());
 	}
 	
 	private static List<String> createDataTable(Map<String, Map<String, Long>> nameAndDateAndScore){
@@ -92,32 +92,29 @@ public class SampleReportGenerator {
 	
 	private static Map<String, Map<String, Long>> createTestData() {
 		Map<String, Map<String, Long>> result = new HashMap<String, Map<String, Long>>();
-		String[] dates1 = {"2014-02-01","2014-02-02","2014-02-03","2014-02-04","2014-02-05"};
-		String[] dates2 = {"2014-01-29","2014-01-30","2014-01-31","2014-02-01","2014-02-02"};
-		String[] dates3 = {"2014-03-01","2014-03-02","2014-03-03"};
-		
+
 		Map<String, Long> map1 = new HashMap<String, Long>();
-		for(String dateKey : dates1){
-			Random rnd = new Random();
-			int ran = rnd.nextInt(10);
-			map1.put(dateKey, (long)ran);
-		}
+		map1.put("2014-02-01", 10L);
+		map1.put("2014-02-02", 5L);
+		map1.put("2014-02-03", 4L);
+		map1.put("2014-02-04", 3L);
+		map1.put("2014-02-05", 2L);
 		result.put("graphDataNo1", map1);
 
 		Map<String, Long> map2 = new HashMap<String, Long>();
-		for(String dateKey : dates2){
-			Random rnd = new Random();
-			int ran = rnd.nextInt(10);
-			map2.put(dateKey, (long)ran);
-		}
+		map2.put("2014-01-29", 5L);
+		map2.put("2014-01-30", 6L);
+		map2.put("2014-01-31", 7L);
+		map2.put("2014-02-01", 8L);
+		map2.put("2014-02-02", 9L);
 		result.put("graphDataNo2", map2);
-		
+
 		Map<String, Long> map3 = new HashMap<String, Long>();
-		for(String dateKey : dates3){
-			Random rnd = new Random();
-			int ran = rnd.nextInt(10);
-			map3.put(dateKey, (long)ran);
-		}
+		map3.put("2014-03-01", 5L);
+		map3.put("2014-03-02", 4L);
+		map3.put("2014-03-03", 5L);
+		map3.put("2014-03-04", 4L);
+		map3.put("2014-03-05", 5L);
 		result.put("graphDataNo3", map3);
 		
 		return result;
